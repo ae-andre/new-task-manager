@@ -14,13 +14,29 @@ class TaskManager {
         this.tasks.push(task);
     }
 
+    deleteTask(taskId) {
+        this.tasks = this.tasks.filter(task => task.id !== taskId);
+    }
+
     render() {
         const taskList = document.getElementById('taskList');
         taskList.innerHTML = '';
 
         this.tasks.forEach(task => {
             const taskElement = document.createElement('li');
-            taskElement.textContent = task.description;
+            taskElement.textContent = task.description + ``;
+
+            const deleteTaskBtn = document.createElement('button');
+            deleteTaskBtn.textContent = 'Delete';
+            deleteTaskBtn.onclick = () => {
+                this.deleteTask(task.id);
+                this.render(); // Re-render the list after deletion
+            };
+
+            // Append the button to the task element
+            taskElement.appendChild(deleteTaskBtn);
+
+            // Append the task element to the task list
             taskList.appendChild(taskElement);
         });
     }
